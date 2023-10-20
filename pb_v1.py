@@ -1,7 +1,7 @@
 import os
 
 # Verifica que el archivo exista.
-if os.path.exists("C:/Users/SENA/Documents/JJYG/SRF/20180402-114759/20180402-114759.pb"):
+if os.path.exists("imgs/will_smith.jpg"):
     # La ruta es correcta.
     print("Sí")
 else:
@@ -11,10 +11,7 @@ else:
 
 # import cv2
 
-# # Cargamos el modelo
-# cv2.dnn.setPreferableBackend(cv2.dnn.DNN_BACKEND_DEFAULT)
-
-# facenet = cv2.dnn.readNet("C:/Users/SENA/Documents/JJYG/SRF/srf_base/model/modelolbphfface.xml")
+# facenet = cv2.dnn.readNet("C:/Users/SENA/Documents/JJYG/SRF/20180402-114759/20180402-114759.pb")
 
 # # Verificamos si el modelo es compatible
 # if facenet is None:
