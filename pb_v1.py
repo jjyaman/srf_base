@@ -1,7 +1,7 @@
 import os
 
 # Verifica que el archivo exista.
-if os.path.exists("imgs/will_smith.jpg"):
+if os.path.exists("C:/Users/SENA/Documents/JJYG/SRF/srf_base/vector/embeddings.txt"):
     # La ruta es correcta.
     print("Sí")
 else:

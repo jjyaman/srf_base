@@ -1,7 +1,6 @@
 #Este algoritmo traza la 'Face Mesh' en el rostro de las personas
 import cv2
 import mediapipe as mp
-import tensorflow as tf
 
 mp_face_mesh = mp.solutions.face_mesh
 mp_drawing = mp.solutions.drawing_utils
