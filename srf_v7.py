@@ -3,8 +3,9 @@ import cv2
 import imutils
 import face_recognition
 import numpy as np
+import json
 from deepface import DeepFace
-from database import sql_request
+from database import insert_sql
 
 cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
@@ -35,11 +36,20 @@ while True:
 
         print(embedding)
         cont +=1
-        
+    
+    # Convertimos el vector embedding a una lista
+    #embedding_list = embedding.tolist()
+
+    # Convertimos la lista a una cadena JSON
+    #json_str = json.dumps(embedding_list)
+
+    # Imprimimos la cadena JSON
+    # print(json_str)
+
     cv2.imshow('frame', frame)
 
     k = cv2.waitKey(1)
-    if k == 27 or cont >= 10:
+    if k == 27 or cont == 1:
         break
 
 cap.release()

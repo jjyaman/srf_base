@@ -26,15 +26,13 @@ def insert_sql(a, b, c):
     try:
         with conx as conn:
             cursor = conn.cursor()
-            
-            cursor.execute(f"INSERT INTO register(id, vector, name) VALUES ()")
-
+            cursor.execute(f"INSERT INTO register (id, vector, name) VALUES ('{a}', '{b}', '{c}')")
+            conn.commit
+            cursor.close()
+        print("Insercción en la BD")
     except Exception as e:
         return e
+    
+#print(insert_sql(2, [1,2,3,4,5], 'jjyg'))
 
-#print(select_sql())
-
-"INSERT INTO sentencia(nombre, edad) VALUES ('{}','{}'), ()"
-data = [ i for i in ['juan', [1,2,3,4,5,6], '18']]
-
-print(data)
+# data = [ i for i in ['juan', [1,2,3,4,5,6], '18']]
