@@ -8,8 +8,6 @@ cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 cont = 0
 max_frames = 100  # Número máximo de fotogramas a procesar
 
-archivo_txt = "C:/Users/SENA/Documents/JJYG/SRF/srf_base/vector/embeddings.txt"
-
 while True:
     ret, frame = cap.read()
     if ret == False:
@@ -33,16 +31,14 @@ while True:
             face_encodings = face_recognition.face_encodings(face_image)
 
             for encoding in face_encodings:
-                print(encoding)
-                with open(archivo_txt, "a") as archivo:
-                    # Convertir la lista de números en una cadena
-                    embedding_str = " ".join(str(num) for num in encoding)
-                    # Escribir la cadena en el archivo
-                    archivo.write(embedding_str + "\n")
-    else:
-        print("No se encontró un rostro")
 
-    cont += 1
+                print(encoding)
+                
+            cont += 1
+
+    else:
+
+        print("No se encontró un rostro")
 
     cv2.imshow("Frame", frame)
     k = cv2.waitKey(1) & 0xFF
