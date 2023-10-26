@@ -46,7 +46,7 @@ class DataBaseMySQL:
 
         try:
             with self.connection.cursor() as cursor:
-                query = f"INSERT INTO {table_name} (numero_documento, tipo_documento, nombre_completo, apellido_completo, rostro, genero) VALUES (1128, 123, 'Juan', 'Fernandez', '{vector}', 'Maculino')"
+                query = f"INSERT INTO {table_name} (numero_documento, tipo_documento, nombre_completo, apellido_completo, rostro, genero) VALUES (2244, 123, 'Daniel', 'Diaz', '{vector}', 'Maculino')"
                 cursor.execute(query)
                 self.connection.commit()
                 print("Inserción realizada correctamente")

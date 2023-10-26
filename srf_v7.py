@@ -6,6 +6,8 @@ import struct
 from db_mysql import DataBaseMySQL
 #from deepface import DeepFace
 
+# Este algoritmo busca que por medio de la lectura de los rostros que se identifiquen en tiempo real, busque en la Base de Datos un rostro que sea igual y muestre la información relacionada a ese rostro que se encuentra en la Base de Datos. Todo esto por medio de los vectores 'embeddings'.
+
 # Creamos la instancia para la realizar la conexión a la Base de Datos
 db = DataBaseMySQL()
 
@@ -25,7 +27,8 @@ while True:
     ret, frame = cap.read()
     if ret == False:
         break
-
+    
+    # Imutils, utilizado para redimensionar una imagen
     #frame = imutils.resize(frame, width=640)
 
     # Convertimos la imagen a escala de grises
@@ -54,25 +57,29 @@ while True:
         cont +=1
 
     # Insertando un registro en la Base de Datos
-    #data = db.insert_into_vector("visitante", hexadecimal)
+    data = db.insert_into_vector("visitante", hexadecimal)
     
     # Seleccionando un registro de la Base de Datos
     #data = db.select_vector_from_table("visitante", 1128)
     
-    try:
-        data = db.select_vector_from_table("visitante", 1128)
-        
-        if data:
-            hexadecimal = data[0]
-            hexadecimal_string = hexadecimal.decode('utf-8')
-            byte_array = bytearray.fromhex(hexadecimal_string)
-            embedding = struct.unpack("f" * (len(byte_array) // 4), byte_array)
-            print("Vector embedding recuperado de la base de datos:")
-            print(embedding)
-        else:
-            print("No se encontraron vectores en la base de datos.")
-    except Exception as e:
-        print(f"Error al recuperar el vector de la base de datos: {e}")
+    # Generamos un 'try' para el manejo de las excepciones y errores
+    # try:
+    #     # Ejecutamos el método que nos retornará un registro de la Base de Datos filtrado por ID y nombre de la tabla
+    #     data = db.select_vector_from_table("visitante", 1128)
+
+    #     # Corroboramos que el objeto contenga información
+    #     if data:
+    #         # Extraemos el vector, acto seguido se Parsea para mostrarlo en su formato original
+    #         hexadecimal = data[0]
+    #         hexadecimal_string = hexadecimal.decode('utf-8')
+    #         byte_array = bytearray.fromhex(hexadecimal_string)
+    #         embedding = struct.unpack("f" * (len(byte_array) // 4), byte_array)
+    #         print("Vector embedding recuperado de la base de datos:")
+    #         print(embedding)
+    #     else:
+    #         print("No se encontraron vectores en la base de datos.")
+    # except Exception as e:
+    #     print(f"Error al recuperar el vector de la base de datos: {e}")
     
 
     cv2.imshow('frame', frame)
@@ -84,5 +91,6 @@ while True:
 # Cerramos la conexión con la Base de Datos
 db.disconnect()
 
+# Liberamos la fuente de vídeo y cerramos las ventanas de OpenCV
 cap.release()
 cv2.destroyAllWindows()
