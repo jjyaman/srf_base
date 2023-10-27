@@ -56,11 +56,15 @@ while True:
         
         cont +=1
 
+    # Variables para crear el registro
+    num_doc = int(input("Ingrese el número de documento: "))
+    name = input("Ingrese el nombre completo: ")
+    last_name = input("Ingrese los apellidos: ")
+    genero = input("Ingrese el género: ")
+
     # Insertando un registro en la Base de Datos
-    data = db.insert_into_vector("visitante", hexadecimal)
+    data = db.insert_into_vector("visitante", num_doc, name, last_name, hexadecimal, genero)
     
-    # Seleccionando un registro de la Base de Datos
-    #data = db.select_vector_from_table("visitante", 1128)
     
     # Generamos un 'try' para el manejo de las excepciones y errores
     # try:

@@ -25,28 +25,28 @@ class DataBaseMySQL:
             self.connection.close()
             print("Conexión cerrada.")
 
-    def select_all_from_table(self, table_name):
+    def select_all_from_table(self, table_name, id):
         if not self.connection:
             print("No hay conexión a la base de datos.")
             return
 
         try:
             with self.connection.cursor() as cursor:
-                query = f"SELECT * FROM {table_name}"
+                query = f"SELECT * FROM {table_name} WHERE numero_documento = {id}"
                 cursor.execute(query)
                 result = cursor.fetchall()
                 return result
         except pymysql.Error as e:
             print(f"Error al realizar la consulta: {e}")
 
-    def insert_into_vector(self, table_name, vector):
+    def insert_into_vector(self, table_name, num_doc, name, last_name, vector, genero):
         if not self.connection:
             print("No hay conexión a la base de datos.")
             return
 
         try:
             with self.connection.cursor() as cursor:
-                query = f"INSERT INTO {table_name} (numero_documento, tipo_documento, nombre_completo, apellido_completo, rostro, genero) VALUES (2244, 123, 'Daniel', 'Diaz', '{vector}', 'Maculino')"
+                query = f"INSERT INTO {table_name} (numero_documento, tipo_documento, nombre_completo, apellido_completo, rostro, genero) VALUES ('{num_doc}', 123, '{name}', '{last_name}', '{vector}', '{genero}')"
                 cursor.execute(query)
                 self.connection.commit()
                 print("Inserción realizada correctamente")

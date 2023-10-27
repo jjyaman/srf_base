@@ -43,7 +43,8 @@ if image is not None:
         # Generamos un 'try' para el manejo de las excepciones y errores
         try:
             # Ejecutamos el método que nos retornará un registro de la Base de Datos filtrado por ID y nombre de la tabla
-            data = db.select_vector_from_table("visitante", 2244)
+            num_doc = int(input("Ingrese el número de documento para consultar: "))
+            data = db.select_vector_from_table('visitante', num_doc)
 
             # Corroboramos que el objeto contenga información
             if data:
@@ -54,17 +55,38 @@ if image is not None:
                 embedding_db = struct.unpack("f" * (len(byte_array) // 4), byte_array)
                 print("Vector embedding recuperado de la base de datos:")
                 
+                # Calculamos la distancia euclidiana
                 distancia = np.linalg.norm(embedding - embedding_db)
-                # Define un umbral para determinar la similitud
-                umbral = 0.7
-                
-                print(distancia)
 
-                # Compara la distancia con el umbral
+                # Calcula el producto punto entre los dos vectores
+                producto_punto = np.dot(embedding, embedding_db)
+
+                # Calcula la norma de cada vector
+                norma_vector1 = np.linalg.norm(embedding)
+                norma_vector2 = np.linalg.norm(embedding_db)
+
+                # Calcula la similitud coseno
+                similitud_coseno = producto_punto / (norma_vector1 * norma_vector2)
+
+                # Define un umbral para determinar la similitud
+                umbral = 0.75
+                
+                print(f"La distancia es: {distancia}")
+                print(f"La similitud de coseno es: {similitud_coseno}")
+
+                # Compara la distancia con el umbral, cuanto menor sea la distancia, más similares son los vectores
                 if distancia < umbral:
-                    print("Los vectores son similares.")
+                    umbral = 0.9
+                    if similitud_coseno >= umbral:
+                        print("Sí")
+                        data = db.select_all_from_table("visitante", num_doc)
+                        if data:
+                            for row in data:
+                                print(row)
+                    else:
+                        print("No 2")
                 else:
-                    print("Los vectores son diferentes.")
+                    print("No 1")
 
             else:
                 print("No se encontraron vectores en la base de datos.")
