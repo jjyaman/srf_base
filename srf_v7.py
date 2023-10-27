@@ -1,10 +1,16 @@
 import dlib
 import cv2
-import imutils
+import os
 import face_recognition
 import struct
 from db_mysql import DataBaseMySQL
 #from deepface import DeepFace
+
+path_dir = "C:/Users/SENA/Documents/JJYG/SRF/srf_base/imgs"
+name_dir = "data"
+path_imgs = os.path.join(path_dir, name_dir)
+if not os.path.exists(path_imgs):
+    os.makedirs(path_imgs)  
 
 # Este algoritmo busca que por medio de la lectura de los rostros que se identifiquen en tiempo real, busque en la Base de Datos un rostro que sea igual y muestre la información relacionada a ese rostro que se encuentra en la Base de Datos. Todo esto por medio de los vectores 'embeddings'.
 
@@ -36,34 +42,42 @@ while True:
 
     faces = detector(gray)
 
-    for face in faces:
-        x, y, w, h = face.left(), face.top(), face.width(), face.height()
-        
-        # Redimensionamos el rostro
-        face = cv2.resize(frame[y:y + h, x:x + w], (224, 224))
+    if faces is not None:
 
-        # Vector embedding con face-recognition
-        embedding = face_recognition.face_encodings(face)[0]
+        for face in faces:
+            x, y, w, h = face.left(), face.top(), face.width(), face.height()
+            
+            # Redimensionamos el rostro
+            face = cv2.resize(frame[y:y + h, x:x + w], (224, 224))
 
-        # Vector embedding con deepface
-        #embedding = DeepFace.extract_faces(face)[0]
+            # Vector embedding con face-recognition
+            embedding = face_recognition.face_encodings(face)[0]
 
-        # Convertimos el vector embedding en un array de bytes
-        byte_array = bytearray(struct.pack("f" * len(embedding), *embedding))
-        
-        #Trasladamos el array de bytes a un formato hexadecimal
-        hexadecimal = byte_array.hex()
-        
-        cont +=1
+            # Vector embedding con deepface
+            #embedding = DeepFace.extract_faces(face)[0]
 
-    # Variables para crear el registro
-    num_doc = int(input("Ingrese el número de documento: "))
-    name = input("Ingrese el nombre completo: ")
-    last_name = input("Ingrese los apellidos: ")
-    genero = input("Ingrese el género: ")
+            # Convertimos el vector embedding en un array de bytes
+            byte_array = bytearray(struct.pack("f" * len(embedding), *embedding))
+            
+            #Trasladamos el array de bytes a un formato hexadecimal
+            hexadecimal = byte_array.hex()
+            
+            cont +=1
 
-    # Insertando un registro en la Base de Datos
-    data = db.insert_into_vector("visitante", num_doc, name, last_name, hexadecimal, genero)
+            # Variables para crear el registro
+            num_doc = int(input("Ingrese el número de documento: "))
+            name = input("Ingrese el nombre completo: ")
+            last_name = input("Ingrese los apellidos: ")
+            genero = input("Ingrese el género: ")
+
+            # Insertando un registro en la Base de Datos
+            data = db.insert_into_vector("visitante", num_doc, name, last_name, hexadecimal, genero)
+
+        # Guardamos el rostro capturado en una carpeta llamada 'data'
+        cv2.imwrite(path_imgs + '/rostros_{}.jpg'.format(num_doc), gray)
+
+    else:
+        print("No se encontro un rostro")
     
     
     # Generamos un 'try' para el manejo de las excepciones y errores

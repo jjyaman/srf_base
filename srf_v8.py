@@ -83,10 +83,8 @@ if image is not None:
                         if data:
                             for row in data:
                                 print(row)
-                    else:
-                        print("No 2")
                 else:
-                    print("No 1")
+                    print("No son la misma persona")
 
             else:
                 print("No se encontraron vectores en la base de datos.")
