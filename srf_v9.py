@@ -37,9 +37,9 @@ while True:
     
     # Convertimos la imagen a escala de grises
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
     faces = detector(gray)
-        
+    
+    # Generamos un try-exception para manejar las errores
     try:
 
         # Extraemos las coordenadas y dimensiones del rostro capturado en tiempo real
@@ -56,21 +56,24 @@ while True:
         
             if embedding is not None:
 
+                # Iteramos sobre los registros de la base de datos
                 for i in data:
-
+                    
+                    # Transformamos el vector 'embedding' de la base de datos a su formato normal
                     hexadecimal = i[0].decode('utf-8')
                     byte_array = bytearray.fromhex(hexadecimal)
                     embedding_db = struct.unpack("f" * (len(byte_array) // 4), byte_array)
 
+                    # Determinamos la similitud de los cosenos
                     similarity = 1 - cosine(embedding, embedding_db)
-
+                    
+                    # Si la similitud de los cosenos es superior al umbral imprimimos el nombre de la persona
                     if similarity > umbral:
                         print("¡Rostro encontrado! Similitud de coseno:", similarity)
                         print(f"{i[1]}")
 
     except Exception as e:
-        print(f"Error al identificar un rostro: {e}") 
-        break  
+        print(f"Error al identificar un rostro: {e}")
 
     #cv2.imshow('frame', frame)
 
