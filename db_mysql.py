@@ -73,14 +73,14 @@ class DataBaseMySQL:
         except pymysql.Error as e:
             print(f"Error al realizar la consulta: {e}")
 
-    # Método para extraer una columna en especifico de todos los registros en una tabla
-    def select_column_from_table(self, columna, table):
+    # Método para extraer campos especificos de todos los registros en una tabla
+    def select_all_register_from_table(self, columna1, columna2, table):
         if not self.connection:
             print("No hay conexión a la base de datos.")
             return
         try:
             with self.connection.cursor() as cursor:
-                query = f"SELECT {columna} FROM {table}"
+                query = f"SELECT {columna1}, {columna2} FROM {table}"
                 cursor.execute(query)
                 return cursor
         except pymysql.Error as e:

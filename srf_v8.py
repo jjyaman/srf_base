@@ -5,6 +5,8 @@ import struct
 import numpy as np
 from db_mysql import DataBaseMySQL
 
+# Este algoritmo compara el vector embedding de una imagen guardada en el directorio raíz del proyecto y un vector embedding almacenado en una base de datos
+
 # Creamos la instancia para la realizar la conexión a la Base de Datos
 db = DataBaseMySQL()
 
@@ -69,7 +71,7 @@ if image is not None:
                 similitud_coseno = producto_punto / (norma_vector1 * norma_vector2)
 
                 # Define un umbral para determinar la similitud
-                umbral = 0.75
+                umbral = 0.55
                 
                 print(f"La distancia es: {distancia}")
                 print(f"La similitud de coseno es: {similitud_coseno}")
