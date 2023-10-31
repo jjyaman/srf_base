@@ -71,6 +71,7 @@ while True:
                     if similarity > umbral:
                         print("¡Rostro encontrado! Similitud de coseno:", similarity)
                         print(f"{i[1]}")
+                        input()
 
     except Exception as e:
         print(f"Error al identificar un rostro: {e}")
@@ -87,7 +88,3 @@ db.disconnect()
 # Liberamos la fuente de vídeo y cerramos las ventanas de OpenCV
 cap.release()
 cv2.destroyAllWindows()
-
-
-
-    
