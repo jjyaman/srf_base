@@ -76,7 +76,7 @@ while True:
     # Convertimos la imagen a escala de grises
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     faces = detector(gray)
-    cv2.imshow('Real Time', gray)
+    # cv2.imshow('Real Time', gray)
 
     # Generamos un try-exception para manejar las errores
     try:
